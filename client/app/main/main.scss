@@ -1,0 +1,219 @@
+//mixins
+
+$font-lato: 'Lato', sans-serif;
+$color-orange: #f7901d;
+$color-blue: #1583c1;
+$color-gray: #919191;
+$color-dark-gray: #333333;
+$color-yellow: #F7E635;
+*{
+    box-sizing: border-box; 
+}
+
+html{
+    font-family: $font-lato;
+    font-weight: 400;
+}
+.brand{
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    float: left;
+    font-size: 20px;
+    font-family: $font-lato;
+    text-transform: uppercase;
+    font-weight: 400;
+    &:hover{
+        text-decoration: none;
+        color: #fff;
+    }
+}
+.thing-form {
+    margin: 20px 0;
+}
+
+#banner {
+    border-bottom: none;
+}
+
+#banner h1 {
+    font-size: 60px;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.hero-unit {
+    position: relative;
+    padding: 20px 15px;
+    color: #F5F5F5;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    background: $color-orange;
+}
+
+.title-search{
+    font-size: 50px;
+    color: $color-orange;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 400;
+}
+
+
+.search-form{
+    width: 50%;
+    margin: 0 auto;
+    .container-form{
+        border: 3px solid $color-gray;
+        border-radius: 3px;
+    }   
+        .container-select{
+            width: 20%;
+            float: left;
+            position: relative;
+            &:before{
+                position: absolute;
+                right: 10%;
+                top: 31%;
+                font-size: 26px;
+                z-index: -1;
+            }
+        }
+        select{
+            cursor: pointer;
+            font-size: 16px;
+            background:transparent;
+            width: 100%;
+            height: 65px;
+            display: block;
+            border: 0 !important;  /*Removes border*/
+            -webkit-appearance: none;  /*Removes default chrome and safari style*/
+            -moz-appearance: none; /* Removes Default Firefox style*/
+            padding: 10px;
+            border-right: 3px solid $color-gray !important;
+            border-radius: 0;
+
+        }
+        input[type="text"]{
+            border: none;
+            padding: 20px 10px;
+            width: 60%;
+            float: left;
+            height: 65px;
+            font-size: 30px;
+        }
+        .search-submit{
+            background:$color-blue;
+            color: #fff;
+            display: block;
+            border: none;
+            float: right;
+            width: 20%;
+            height: 65px;
+            font-size: 18px;
+            &:hover{
+                background: darken($color-blue, 10%);
+            }
+        }
+}
+
+.container-results{
+    padding: 25px 0;
+    border-left: 3px solid $color-gray;
+    border-right: 3px solid $color-gray;
+    border-bottom: 3px solid $color-gray;
+    &:nth-child(even){
+        background:$color-gray;
+    }
+    &.container-many-results{
+        background: rgba($color-blue, .5);
+        border: 3px solid $color-blue;
+        color: #fff;
+        font-size: 40px;
+        padding: 15px;
+        position: relative;
+        /* &:hover{
+            .many-close{
+                display: block;
+            }
+        } */
+        .many-close{
+            background:transparent;
+            border:none;
+            cursor: pointer;
+            display: block;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 25px;
+            z-index: 100;
+        }
+        .many-lg{
+            display: block;
+
+        }
+        .many-small{
+            font-size: 22px;
+            float:left;
+            display: block;
+            .fa{
+                color: $color-yellow;
+            }
+        }
+        .many-xsmall{
+            font-size: 16px;
+            display: block;
+            text-align: right;
+            float: right;
+            a{
+                color: $color-dark-gray;
+                &:hover{
+                    color: $color-blue;
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}
+    .title-results{
+
+    }
+
+    .flv-results-col{
+        span{
+            display: block;
+        }
+    }
+    
+        .flv-container-results-info{
+            .flv-container-results-info-inner{
+                position: relative;
+            }
+            .wrapper-results-info-text{
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(#000, .3);
+                color: #fff;
+                .container-results-info-text{
+                    position: absolute;
+                    bottom: 0;
+                    padding: 10px;
+                }
+            }
+            img{
+                max-width: 100%;
+                width: 100%;
+                height: auto;
+                display: block;
+            }
+        }
+
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 70px;
+    border-top: 1px solid #E5E5E5;
+}
