@@ -9,14 +9,12 @@ angular.module('brightcoveRequesterApp')
         if(api === 'Playlist'){
           return $http.get('/api/search/playlist')
               .then(function(result){
-                console.log(result);
                 return result.data;
               })
         }
         else if(api === 'Video'){
     			return $http.get('/api/search/video?q=' + q)
     						.then(function(result){
-                  console.log(result);
     							return result.data;
     						})
         }

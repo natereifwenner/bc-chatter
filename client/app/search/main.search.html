@@ -1,15 +1,15 @@
 <div class="container" ng-controller="SearchCtrl">
-	<h2 class="title-search">Search all videos or playlists</h2>
+	<h2 class="title-search">Search all videos</h2>
 	<form class="search-all search-form">
 		<div class="container-form clearfix">
 			<div class="container-select fa fa-caret-down">
-				<select class="search-by-select" name="search-param" ng-init="searchOptApi = search.api[0]" ng-model="searchOptApi" ng-options="option for option in search.api"></select>
+				<select class="search-by-select" name="search-param" ng-init="searchOptApi = search.api[0]" ng-model="searchOptApi" ng-options="option.name for option in search.api"></select>
 			</div>
-			<input type="text" class="search-all-field" ng-model="searchAll" />
-			<button class="search-all-submit search-submit" ng-disabled="results.loading" ng-click="searchKey(searchOptApi, searchAll)">Seach<span ng-show="results.loading">ing</span> <i ng-show="results.loading" class="fa fa-circle-o-notch fa-spin"></i></button>
+			<input type="text" class="search-all-field" ng-placeholder='searchOptApi.placeholder' ng-model="searchAll" />
+			<button class="search-all-submit search-submit" ng-disabled="results.loading" ng-click="searchKey(searchOptApi.name, searchAll)">Seach<span ng-show="results.loading">ing</span> <i ng-show="results.loading" class="fa fa-circle-o-notch fa-spin"></i></button>
 		</div>
 	</form>
-	<h2 class="title-search">Or</h2>
+	<!-- <h2 class="title-search">Or</h2>
 	<h2 class="title-search">Search by</h2>
 	<form class="search-by-form search-form">
 		<div class="container-form clearfix">
@@ -19,7 +19,7 @@
 			<input type="text" class="search-all-field" ng-model="searchBy" />
 			<button class="search-all-submit search-submit" ng-disabled="results.loading" ng-click="searchKey(searchBy)">Seach<span ng-show="results.loading">ing</span> <i ng-show="results.loading" class="fa fa-circle-o-notch fa-spin"></i></button>
 		</div>
-	</form>
+	</form> -->
 	<div class="container-pagination" ng-if="results.pagination">
 		<ul class="pagination">
 			<li ng-repeat="item in results.totalPage" ng-class="{ active : item == results.page + 1}"><a href="#" ng-click="searchPage(results.searchTerm,item - 1)">{{item}}</a></li>

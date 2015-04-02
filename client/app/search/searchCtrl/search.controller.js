@@ -2,10 +2,12 @@
 
 angular.module('brightcoveRequesterApp')
   .controller('SearchCtrl', function ($scope, searchService) {
+    $scope.searchOptApi = {};
   	$scope.search = {
-  		api: ["Video", "Playlist"],
-  		field: ["Video ID", "Ref ID"]
-  	}
+  		api: [{ name: "Video", placeholder: "Search by keyword - Example: \"Forman Law\""}, 
+            { name:"Video ID", placeholder: "Search by Video ID - Example: 012134123"}, 
+            { name: "Ref ID", placeholder: "Search by Reference ID - Example: 1355062_01_C"}]
+  	};
   	$scope.results = {
   		'loading' : false,
   		'total' : '',
@@ -33,7 +35,6 @@ angular.module('brightcoveRequesterApp')
 	  		'page' : 0
 	  	}
     	searchService.searchAll(api,q).then(function(resp){
-        console.log(resp);
     		if(resp.page_size <= resp.total_count){
     			var range = resp.items.length;
     			$scope.results.many = true;

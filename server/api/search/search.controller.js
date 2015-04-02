@@ -4,6 +4,7 @@ var _ = require('lodash');
 var http = require('http');
 var Search = require('./search.model');
 var request = require('request');
+var async = require('async');
 var client_id = "77d2c6a5-fe93-4f60-a1f5-9cef18295615";
 var client_secret = "_dJuEnJtAAXTSUda_ahscYAPpT9uNemZoIZZQe0rMUY5zRwyZj4iVkAR_jbzx5s3DRFcS8rAqfddPO96tAFfSA";
 var auth_string = new Buffer(client_id + ":" + client_secret).toString('base64');
@@ -29,7 +30,7 @@ var y = request({
 
 
 
-// 
+//ASYNC EXAMPLE
 exports.search = function(req, res) {
   /*var body = '';*/
   /*if(req.query.page){
@@ -50,30 +51,100 @@ exports.search = function(req, res) {
      var str = JSON.parse(body);
     res.json(201, str);
   });
+  async.parallel([
+    /*
+     * First external endpoint
+     */
+    function(callback) {
+      var x = request({
+        method: 'GET',
+        url: 'https://cms.api.brightcove.com/v1/accounts/981571817/videos?50updated_attags:foo+updated_at:2014-06-01..',
+        headers: {
+          'Authorization': 'Bearer ' + auth,
+          'Content-Type': 'application/json'
+        },
+        body: "{}"
+        }, function (error, response, body) {
+            if(error){ console.log(error); callback(true); return;}
+            var obj = JSON.parse(body);
+            callback(false, obj);
+            //var str = JSON.parse(body);
+        //res.json(201, str);
+      });
+    },
+    /*
+     * Second external endpoint
+     */
+    function(callback) {
+      if(req.query.page){
+      var x = request('http://api.brightcove.com/services/library?command=search_videos&any=:'
+          + req.query.q +'&page_size=20&page_number=' 
+          + req.query.page 
+          + '&get_item_count=true&sort_by=MODIFIED_DATE:DESC&token=6nww9zJn-DqFjGT1nByWrCcBDu36nR4Ws1pu7In8Dpk.'
+          , function (error, response, body) {
+            if(error){ console.log(error); callback(true); return;}
+            var obj = JSON.parse(body);
+            callback(false, obj);
+            /*var str = JSON.parse(body);
+            res.json(201, str);*/
+          });
+      }else{
+      var x = request('http://api.brightcove.com/services/library?command=search_videos&any=:'
+            + req.query.q 
+            +'&page_size=20&get_item_count=true&sort_by=MODIFIED_DATE:DESC&token=6nww9zJn-DqFjGT1nByWrCcBDu36nR4Ws1pu7In8Dpk.'
+            , function (error, response, body) {
+            if(error){ console.log(error); callback(true); return;}
+            var obj = JSON.parse(body);
+            callback(false, obj);
+            /*var str = JSON.parse(body);
+            res.json(201, str);*/
+          });
+      }
+    },
+  ],
+  /*
+   * Collate results
+   */
+  function(error, results) {
+    if(error) { console.log(error); res.send(500,"Server Error"); return; }
+    //console.log({api1:results[0],api2:results[0]});
+    res.json(201,{api1:results[0], api2:results[1]});
+  }
+  );
   
 };
-exports.videoSearch = function(req, res) {
-  /*var body = '';*/
-  /*if(req.query.page){
+/*exports.search = function(req, res) {
+  var body = '';
+  if(req.query.page){
     console.log(req.query);
       var x = request('http://api.brightcove.com/services/library?command=search_videos&any=:'+ req.query.q +'&page_size=20&page_number=' + req.query.page + '&get_item_count=true&sort_by=MODIFIED_DATE:DESC&token=6nww9zJn-DqFjGT1nByWrCcBDu36nR4Ws1pu7In8Dpk.');
     }else{
       var x = request('http://api.brightcove.com/services/library?command=search_videos&any=:'+ req.query.q +'&page_size=20&get_item_count=true&sort_by=MODIFIED_DATE:DESC&token=6nww9zJn-DqFjGT1nByWrCcBDu36nR4Ws1pu7In8Dpk.');
-    }*/
-  var z = request({
-    method: 'GET',
-    url: 'https://cms.api.brightcove.com/v1/accounts/981571817/videos?50updated_attags:foo+updated_at:2014-06-01..',
-    headers: {
-      'Authorization': 'Bearer ' + auth,
-      'Content-Type': 'application/json'
-    },
-    body: "{}"
-  }, function (error, response, body) {
-    console.log(response);
-    var str = JSON.parse(body);
-    res.json(201, str);
-  });
-  
+    }
+  req.pipe(x)
+  x.pipe(res);
+};*/
+exports.videoSearch = function(req, res) {
+  //var body = '';
+  if(req.query.page){
+      var x = 
+        request('http://api.brightcove.com/services/library?command=search_videos&any=:'
+        + req.query.q +'&page_size=20&page_number=' 
+        + req.query.page 
+        + '&get_item_count=true&sort_by=MODIFIED_DATE:DESC&token=6nww9zJn-DqFjGT1nByWrCcBDu36nR4Ws1pu7In8Dpk.'
+        , function (error, response, body) {
+          var str = JSON.parse(body);
+          res.json(201, str);
+        });
+    }else{
+      var x = request('http://api.brightcove.com/services/library?command=search_videos&any=:'
+          + req.query.q 
+          +'&page_size=20&get_item_count=true&sort_by=MODIFIED_DATE:DESC&token=6nww9zJn-DqFjGT1nByWrCcBDu36nR4Ws1pu7In8Dpk.'
+          , function (error, response, body) {
+          var str = JSON.parse(body);
+          res.json(201, str);
+        });
+    }
 };
 exports.playlistSearch = function(req, res) {
   var body = '';
