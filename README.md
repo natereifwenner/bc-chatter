@@ -18,3 +18,7 @@ Update `server/config/environment/local.env.sample.js` with required API tokens 
 run `mongod` to start mongo db
 run `grunt serve` in command line
 
+### Additional Information
+
+This application was initialized using the [MEAN Stack Yeoman generator](https://github.com/DaftMonk/generator-angular-fullstack)
+
