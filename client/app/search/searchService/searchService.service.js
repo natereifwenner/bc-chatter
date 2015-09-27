@@ -24,6 +24,13 @@ angular.module('brightcoveRequesterApp')
               .then(function(result){
                   return result.data;
               })
+      },
+      getPlaylist: function(id){
+          return $http.get('/api/search/playlist?id=' + id)
+              .then(function(result){
+                  console.log(result.data);
+                  return result.data;
+              })
       }
   	}
   });

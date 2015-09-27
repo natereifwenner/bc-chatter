@@ -10,5 +10,10 @@ module.exports = {
   SESSION_SECRET:   'brightcoverequester-secret',
 
   // Control debug level for modules using visionmedia/debug
-  DEBUG: ''
+  DEBUG: '',
+
+  //include brightcove oauth client id and secret. For more information please see http://docs.brightcove.com/en/video-cloud/oauth-api/getting-started/oauth-api-overview.html
+  //CLIENT_ID: '',
+  //CLIENT_SECRET: ''
+
 };

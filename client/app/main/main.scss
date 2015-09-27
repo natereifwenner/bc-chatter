@@ -3,7 +3,9 @@
 $font-lato: 'Lato', sans-serif;
 $color-orange: #f7901d;
 $color-blue: #1583c1;
+$color-light-gray: #E5E5E8;
 $color-gray: #919191;
+$color-med-gray: #AEB0B1;
 $color-dark-gray: #333333;
 $color-yellow: #F7E635;
 *{
@@ -62,9 +64,9 @@ html{
 
 .search-form{
     width: 50%;
-    margin: 0 auto;
+    margin: 40px auto;
     .container-form{
-        border: 3px solid $color-gray;
+        border: 1px solid $color-gray;
         border-radius: 3px;
     }   
         .container-select{
@@ -90,7 +92,7 @@ html{
             -webkit-appearance: none;  /*Removes default chrome and safari style*/
             -moz-appearance: none; /* Removes Default Firefox style*/
             padding: 10px;
-            border-right: 3px solid $color-gray !important;
+            border-right: 1px solid $color-gray !important;
             border-radius: 0;
 
         }
@@ -123,15 +125,16 @@ html{
 
 .container-results{
     padding: 25px 0;
-    border-left: 3px solid $color-gray;
-    border-right: 3px solid $color-gray;
-    border-bottom: 3px solid $color-gray;
+    
     &:nth-child(even){
-        background:$color-gray;
+        background:$color-light-gray;
+    }
+    &:nth-child(odd){
+        background: #fff;
     }
     &.container-many-results{
         background: rgba($color-blue, .5);
-        border: 3px solid $color-blue;
+        border: 1px solid $color-blue;
         color: #fff;
         font-size: 40px;
         padding: 15px;
@@ -179,6 +182,16 @@ html{
         }
     }
 }
+    .wrapper-table{
+        padding: 15px;
+        background:$color-med-gray;
+        border-radius: 3px;
+        border: 1px solid $color-gray;
+    }
+
+        /* .container-results-table{
+            border-radius: 3px;
+        } */
     .title-results{
 
     }
@@ -214,6 +227,28 @@ html{
                 display: block;
             }
         }
+
+            .get-action{
+                border: none;
+                background:$color-blue;
+                padding: 10px;
+                margin-top: 10px;
+                color: #fff;
+                width: 100%;
+                text-align: center;
+                &:hover{
+                    background:darken($color-blue, 20%);
+                }
+            }
+            .playlist-id{
+                display: none;
+                padding: 10px;
+                background:#fff;
+                font-size: 16px;
+                &.active{
+                    display: block;
+                }
+            }
 
 .footer {
     text-align: center;

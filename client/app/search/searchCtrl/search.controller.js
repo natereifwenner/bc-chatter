@@ -3,12 +3,12 @@
 angular.module('brightcoveRequesterApp')
   .controller('SearchCtrl', function ($scope, searchService) {
     $scope.searchOptApi = {};
-  	$scope.search = {
-  		api: [{ name: "Video", placeholder: "Search by keyword - Example: \"Forman Law\""}, 
-            { name:"Video ID", placeholder: "Search by Video ID - Example: 012134123"}, 
-            { name: "Ref ID", placeholder: "Search by Reference ID - Example: 1355062_01_C"}]
+  	$scope.request = {
+  		api: [{ name: "Video", placeholder: "Search by keyword - Example: \"Forman Law\""}
+            /*,{ name:"Video ID", placeholder: "Search by Video ID - Example: 012134123"}, 
+            { name: "Ref ID", placeholder: "Search by Reference ID - Example: 1355062_01_C"}*/]
   	};
-  	$scope.results = {
+  	$scope.search = {
   		'loading' : false,
   		'total' : '',
   		'searchTerm' : '',
@@ -18,11 +18,12 @@ angular.module('brightcoveRequesterApp')
   		'items' : [],
   		'pagination' : false,
   		'totalPage' : 0,
-  		'page' : 0
+  		'page' : 0,
+      'playlist' : { id: null }
   	}
 
     $scope.searchKey = function(api,q){
-    	$scope.results = {
+    	$scope.search = {
 	  		'loading' : true,
 	  		'total' : '',
 	  		'searchTerm' : '',
@@ -32,26 +33,27 @@ angular.module('brightcoveRequesterApp')
 	  		'items' : [],
 	  		'pagination' : false,
 	  		'totalPage' : 0,
-	  		'page' : 0
+	  		'page' : 0,
+        'playlist' : { id: null }
 	  	}
     	searchService.searchAll(api,q).then(function(resp){
     		if(resp.page_size <= resp.total_count){
     			var range = resp.items.length;
-    			$scope.results.many = true;
-    			$scope.results.manyMsg = 'Viewing ' + range + ' out of ' +resp.total_count;
+    			$scope.search.many = true;
+    			$scope.search.manyMsg = 'Viewing ' + range + ' out of ' +resp.total_count;
     		}
-    		$scope.results.done = true;
-    		$scope.results.searchTerm = q;
-    		$scope.results.page = resp.page_number;
-    		$scope.results.total = resp.total_count;
-    		$scope.results.items = resp.items;
-    		$scope.results.loading = false;
-    		$scope.results.totalPage = resp.total_count / 20;
+    		$scope.search.done = true;
+    		$scope.search.searchTerm = q;
+    		$scope.search.page = resp.page_number;
+    		$scope.search.total = resp.total_count;
+    		$scope.search.items = resp.items;
+    		$scope.search.loading = false;
+    		$scope.search.totalPage = resp.total_count / 20;
     	});
     }
 
     $scope.searchPage = function(q, page){
-    	$scope.results = {
+    	$scope.search = {
 	  		'loading' : true,
 	  		'total' : '',
 	  		'searchTerm' : '',
@@ -65,17 +67,19 @@ angular.module('brightcoveRequesterApp')
 	  	}
     	searchService.searchNextPage(q, page).then(function(resp){
     		
-    		$scope.results.done = true;
-    		$scope.results.searchTerm = q;
-    		$scope.results.page = resp.page_number;
-    		$scope.results.total = resp.total_count;
-    		$scope.results.items = resp.items;
-    		$scope.results.loading = false;
-    		$scope.results.pagination = true;
-    		$scope.results.totalPage = createArray(resp.total_count / 20);
-    		$scope.results.page = resp.page_number
+    		$scope.search.done = true;
+    		$scope.search.searchTerm = q;
+    		$scope.search.page = resp.page_number;
+    		$scope.search.total = resp.total_count;
+    		$scope.search.items = resp.items;
+    		$scope.search.loading = false;
+    		$scope.search.pagination = true;
+    		$scope.search.totalPage = createArray(resp.total_count / 20);
+    		$scope.search.page = resp.page_number
     	});
     }
+
+    
 
     //TODO: figure out way to limit pagination
     var createArray = function(pages){

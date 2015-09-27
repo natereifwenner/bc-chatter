@@ -1,0 +1,32 @@
+<div class="flv-container-results-info flv-results-col col-lg-3">
+		<div class="flv-container-results-info-inner">
+			<img src="{{video.videoStillURL}}" alt="" class="flv-still">
+			<div class="wrapper-results-info-text">
+				<div class="container-results-info-text">
+					<span class="flv-title">{{video.name}}</span>
+					<span class="flv-duration">{{video.length | date: "mm:ss"}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="flv-container-ids flv-results-col col-lg-3">
+		<span class="flv-id">Video ID : {{video.id}}</span>
+		<span class="flv-ref">Ref ID : {{video.referenceId}}</span>
+		<span class="flv-mp4"><a href="{{video.FLVURL}}" target="_blank">Preview Video</a></span>
+	</div>
+	<div class="flv-title flv-results-col col-lg-3">
+		{{video.name}}
+		<span class="flv-short-description">{{video.shortDescription}}</span>
+	</div>
+	<div class="flv-title flv-results-col col-lg-3">
+		<button class="get-playlist get-action" ng-click="getPlaylist(video.id)">Get playlist ID <i class="fa fa-th-list"></i></button>
+		<div class="playlist-id" ng-class="{ 'active': playlist.id }">
+			<h5 class="playlist-id-title">Playlist ID(s)</h5>
+			<div class="playlist-table" ng-repeat="list in playlist.id">
+				<span class="playlist-ids">{{list}}</span>
+			</div>
+			<span class="playlist-ids no-playlist" ng-if="playlist.id.length <= 0">No playlists</span>
+		</div>
+<!-- 		<button class="get-template get-action">Get template markup <i class="fa fa-code"></i></button> -->
+	</div>
+</div>

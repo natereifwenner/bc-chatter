@@ -8,7 +8,6 @@ angular.module('brightcoveRequesterApp')
 	      placeholder: '=ngPlaceholder'
 	    },
 	    link: function(scope, elem, attr) {
-	    	console.log(elem);
 	      scope.$watch('placeholder',function() {
 	        elem[0].placeholder = scope.placeholder;
 	      });

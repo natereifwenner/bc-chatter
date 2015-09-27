@@ -5,40 +5,30 @@ var http = require('http');
 var Search = require('./search.model');
 var request = require('request');
 var async = require('async');
-var client_id = "77d2c6a5-fe93-4f60-a1f5-9cef18295615";
-var client_secret = "_dJuEnJtAAXTSUda_ahscYAPpT9uNemZoIZZQe0rMUY5zRwyZj4iVkAR_jbzx5s3DRFcS8rAqfddPO96tAFfSA";
+
+var config = require('../../config/local.env');
+
+var client_id = config.CLIENT_ID;
+var client_secret = config.CLIENT_SECRET;
+
 var auth_string = new Buffer(client_id + ":" + client_secret).toString('base64');
 var auth = {};
-console.log(auth_string);
-var y = request({
-  method: 'POST',
-  url: 'https://oauth.brightcove.com/v3/access_token',
-  headers: {
-    'Authorization': 'Basic ' + auth_string,
-    'Content-Type': 'application/x-www-form-urlencoded'
-  },
-  body: 'grant_type=client_credentials'
-}, function (error, response, body) {
-  console.log('Status: ', response.statusCode);
-  console.log('Headers: ', JSON.stringify(response.headers));
-  console.log('Response: ', body);
-  console.log('Error: ', error);
-  var str = JSON.parse(body);
-  auth = str.access_token;
-  return auth;
-});
 
-
-
-//ASYNC EXAMPLE
 exports.search = function(req, res) {
-  /*var body = '';*/
-  /*if(req.query.page){
-    console.log(req.query);
-      var x = request('http://api.brightcove.com/services/library?command=search_videos&any=:'+ req.query.q +'&page_size=20&page_number=' + req.query.page + '&get_item_count=true&sort_by=MODIFIED_DATE:DESC&token=6nww9zJn-DqFjGT1nByWrCcBDu36nR4Ws1pu7In8Dpk.');
-    }else{
-      var x = request('http://api.brightcove.com/services/library?command=search_videos&any=:'+ req.query.q +'&page_size=20&get_item_count=true&sort_by=MODIFIED_DATE:DESC&token=6nww9zJn-DqFjGT1nByWrCcBDu36nR4Ws1pu7In8Dpk.');
-    }*/
+  var getToken = request({
+    method: 'POST',
+    url: 'https://oauth.brightcove.com/v3/access_token',
+    headers: {
+      'Authorization': 'Basic ' + auth_string,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: 'grant_type=client_credentials'
+  }, function (error, response, body) {
+    var str = JSON.parse(body);
+    auth = str.access_token;
+    return auth;
+  });
+
   var x = request({
     method: 'GET',
     url: 'https://cms.api.brightcove.com/v1/accounts/981571817/videos?50updated_attags:foo+updated_at:2014-06-01..',
@@ -52,9 +42,6 @@ exports.search = function(req, res) {
     res.json(201, str);
   });
   async.parallel([
-    /*
-     * First external endpoint
-     */
     function(callback) {
       var x = request({
         method: 'GET',
@@ -72,9 +59,6 @@ exports.search = function(req, res) {
         //res.json(201, str);
       });
     },
-    /*
-     * Second external endpoint
-     */
     function(callback) {
       if(req.query.page){
       var x = request('http://api.brightcove.com/services/library?command=search_videos&any=:'
@@ -133,26 +117,47 @@ exports.videoSearch = function(req, res) {
         + req.query.page 
         + '&get_item_count=true&sort_by=MODIFIED_DATE:DESC&token=6nww9zJn-DqFjGT1nByWrCcBDu36nR4Ws1pu7In8Dpk.'
         , function (error, response, body) {
-          var str = JSON.parse(body);
-          res.json(201, str);
+          var data = JSON.parse(body);
+          res.json(201, data);
         });
     }else{
       var x = request('http://api.brightcove.com/services/library?command=search_videos&any=:'
           + req.query.q 
           +'&page_size=20&get_item_count=true&sort_by=MODIFIED_DATE:DESC&token=6nww9zJn-DqFjGT1nByWrCcBDu36nR4Ws1pu7In8Dpk.'
           , function (error, response, body) {
-          var str = JSON.parse(body);
-          res.json(201, str);
+          var data = JSON.parse(body);
+          res.json(201, data);
         });
     }
 };
+
+//TODO: Make a sepearate call to return playlist length to help identify master playlist id
 exports.playlistSearch = function(req, res) {
-  var body = '';
-  console.time(request);
-    var x = request('http://api.brightcove.com/services/library?command=find_all_playlists&page_number=1&playlist_fields=name,id&sort_by=publish_date&sort_order=ASC&get_item_count=true&token=6nww9zJn-DqFjGT1nByWrCcBDu36nR4Ws1pu7In8Dpk.');
-   console.timeEnd(request);
-  req.pipe(x)
-  x.pipe(res);
+  var getToken = request({
+    method: 'POST',
+    url: 'https://oauth.brightcove.com/v3/access_token',
+    headers: {
+      'Authorization': 'Basic ' + auth_string,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: 'grant_type=client_credentials'
+  }, function (error, response, body) {
+    var str = JSON.parse(body);
+    auth = str.access_token;
+    return auth;
+  });
+  var x = request({
+    method: 'GET',
+    url: 'https://cms.api.brightcove.com/v1/accounts/981571817/videos/' + req.query.id +'/references',
+    headers: {
+      'Authorization': 'Bearer ' + auth,
+      'Content-Type': 'application/json'
+    },
+    body: "{}"
+  }, function (error, response, body) {
+    var obj = JSON.parse(body);
+    res.json(201, obj);
+  });
 };
 
 
