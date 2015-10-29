@@ -10,6 +10,7 @@ describe('Directive: ngPlaceholder', function () {
 
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
+    scope.placeholder = 'test';
   }));
 
   it('should make hidden element visible', inject(function ($compile) {

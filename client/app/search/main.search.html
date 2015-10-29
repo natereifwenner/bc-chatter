@@ -1,12 +1,12 @@
-<div class="container" ng-controller="SearchCtrl">
+<div class="container" ng-controller="SearchCtrl as videoSearch">
 	<h2 class="title-search"><i class="fa fa-search"></i> Search all videos</h2>
 	<form class="search-all search-form">
 		<div class="container-form clearfix">
 			<div class="container-select fa fa-caret-down">
-				<select class="search-by-select" name="search-param" ng-init="searchOptApi = request.api[0]" ng-model="searchOptApi" ng-options="option.name for option in request.api"></select>
+				<select class="search-by-select" name="search-param" ng-init="videoSearch.searchOptApi = videoSearch.request.api[0]" ng-model="videoSearch.searchOptApi" ng-options="option.name for option in videoSearch.request.api"></select>
 			</div>
-			<input type="text" class="search-all-field" ng-placeholder='searchOptApi.placeholder' ng-model="searchAll" />
-			<button class="search-all-submit search-submit" ng-disabled="search.loading" ng-click="searchKey(searchOptApi.name, searchAll)">Seach<span ng-show="search.loading">ing</span> <i ng-show="search.loading" class="fa fa-circle-o-notch fa-spin"></i></button>
+			<input type="text" class="search-all-field" ng-placeholder='videoSearch.searchOptApi.placeholder' ng-model="searchAll" />
+			<button class="search-all-submit search-submit" ng-disabled="videoSearch.search.loading" ng-click="videoSearch.searchKey(videoSearch.searchOptApi.name, searchAll)">Seach<span ng-show="videoSearch.search.loading">ing</span> <i ng-show="videoSearch.search.loading" class="fa fa-circle-o-notch fa-spin"></i></button>
 		</div>
 	</form>
 	<!-- <h2 class="title-search">Or</h2>
@@ -17,36 +17,41 @@
 				<select class="search-by-select" name="search-param" ng-init="searchOpt = search.field[0]" ng-model="searchOpt" ng-options="option for option in search.field"></select>
 			</div>
 			<input type="text" class="search-all-field" ng-model="searchBy" />
-			<button class="search-all-submit search-submit" ng-disabled="search.loading" ng-click="searchKey(searchBy)">Seach<span ng-show="search.loading">ing</span> <i ng-show="search.loading" class="fa fa-circle-o-notch fa-spin"></i></button>
+			<button class="search-all-submit search-submit" ng-disabled="search.loading" ng-click="videoSearch.searchKey(searchBy)">Seach<span ng-show="search.loading">ing</span> <i ng-show="search.loading" class="fa fa-circle-o-notch fa-spin"></i></button>
 		</div>
 	</form> -->
-	<div class="container-pagination" ng-if="search.pagination">
+	<div class="container-pagination" ng-if="videoSearch.search.pagination">
 		<ul class="pagination">
-			<li ng-repeat="item in search.totalPage" ng-class="{ active : item == search.page + 1}"><a href="#" ng-click="searchPage(search.searchTerm,item - 1)">{{item}}</a></li>
+			<li ng-repeat="item in videoSearch.search.totalPage" ng-class="{ active : item == videoSearch.search.page + 1}"><a href="#" ng-click="videoSearch.searchPage(videoSearch.search.searchTerm,item - 1)">{{item}}</a></li>
 		</ul>
 	</div>
 <!-- 	<i ng-show="search.loading" class="fa fa-circle-o-notch fa-spin"></i>
- -->	<div class="container-results-list" ng-show="search.done">
-		<h3 class="title-results">Results <span ng-show="search.done">for {{search.searchTerm}}</span></h3>
+ -->	<div class="container-results-list" ng-show="videoSearch.search.done">
+		<h3 class="title-results">Results <span ng-show="videoSearch.search.done">for {{videoSearch.search.searchTerm}}</span></h3>
 		<div class="wrapper-table">
 			<div class="container-results-table container-fluid">
-				<!-- total results = {{search.total}} -->
-				<div class="container-many-results container-results row" ng-show="search.many">
-					<button ng-click="search.many = false" class="many-close"><span class="fa fa-times-circle"></span></button>
+				<!-- total results = {{videoSearch.search.total}} -->
+				<div class="container-many-results container-results row" ng-show="videoSearch.search.many">
+					<button ng-click="videoSearch.search.many = false" class="many-close"><span class="fa fa-times-circle"></span></button>
 					<div class="many-results-text col-lg-12">
-						<span class="many-lg">{{search.manyMsg}}</span>
+						<span class="many-lg">{{videoSearch.search.manyMsg}}</span>
 						<span class="many-small"><i class="fa fa-exclamation-triangle"></i> Consider refining your search term.</span>
-						<span class="many-xsmall">Or else you can view the next 20 results by <a href="#" ng-click="searchPage(search.searchTerm, search.page + 1)" class="many-more">clicking here <i class="fa fa-arrow-circle-o-right"></i></a></span>
+						<span class="many-xsmall">Or else you can view the next 20 results by <a href="#" ng-click="videoSearch.searchPage(videoSearch.search.searchTerm, videoSearch.search.page + 1)" class="many-more">clicking here <i class="fa fa-arrow-circle-o-right"></i></a></span>
 					</div>
 				</div>
-				<div class="container-results row" ng-repeat="item in search.items">
+				<div class="container-results row" ng-repeat="item in videoSearch.search.items">
 					<video-item video="item"></video-item>
+			</div>
+			<div class="container-results row" ng-if="videoSearch.noResults === true">
+				<div class="flv-container-results-info flv-results-col col-lg-12">
+					No Results Found
+				</div>
 			</div>
 		</div>
 	</div>
 	<div class="container-pagination" ng-if="search.pagination">
 		<ul class="pagination">
-			<li ng-repeat="item in search.totalPage"><a href="#" ng-click="searchPage(search.searchTerm,item - 1)">{{item}}</a></li>
+			<li ng-repeat="item in videoSearch.search.totalPage"><a href="#" ng-click="videoSearch.searchPage(videoSearch.search.searchTerm,item - 1)">{{item}}</a></li>
 		</ul>
 	</div>
 </div>

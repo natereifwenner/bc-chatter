@@ -1,29 +1,33 @@
 'use strict';
 
 angular.module('brightcoveRequesterApp')
-  .controller('SearchCtrl', function ($scope, searchService) {
-    $scope.searchOptApi = {};
-  	$scope.request = {
+  .controller('SearchCtrl', function (searchService) {
+    var search, vm;
+    vm = this;
+    vm.search = {
+      'loading' : false,
+      'total' : '',
+      'searchTerm' : '',
+      'done' : false,
+      'many' : false,
+      'manyMsg' : '',
+      'items' : [],
+      'pagination' : false,
+      'totalPage' : 0,
+      'page' : 0,
+      'playlist' : { id: null }
+    };
+    vm.searchOptApi = {};
+    vm.noResults = false;
+  	vm.request = {
   		api: [{ name: "Video", placeholder: "Search by keyword - Example: \"Forman Law\""}
             /*,{ name:"Video ID", placeholder: "Search by Video ID - Example: 012134123"}, 
             { name: "Ref ID", placeholder: "Search by Reference ID - Example: 1355062_01_C"}*/]
   	};
-  	$scope.search = {
-  		'loading' : false,
-  		'total' : '',
-  		'searchTerm' : '',
-  		'done' : false,
-  		'many' : false,
-  		'manyMsg' : '',
-  		'items' : [],
-  		'pagination' : false,
-  		'totalPage' : 0,
-  		'page' : 0,
-      'playlist' : { id: null }
-  	}
+  	
 
-    $scope.searchKey = function(api,q){
-    	$scope.search = {
+    vm.searchKey = function(api,q){
+    	vm.search = {
 	  		'loading' : true,
 	  		'total' : '',
 	  		'searchTerm' : '',
@@ -37,23 +41,26 @@ angular.module('brightcoveRequesterApp')
         'playlist' : { id: null }
 	  	}
     	searchService.searchAll(api,q).then(function(resp){
+        console.log(resp);
     		if(resp.page_size <= resp.total_count){
     			var range = resp.items.length;
-    			$scope.search.many = true;
-    			$scope.search.manyMsg = 'Viewing ' + range + ' out of ' +resp.total_count;
-    		}
-    		$scope.search.done = true;
-    		$scope.search.searchTerm = q;
-    		$scope.search.page = resp.page_number;
-    		$scope.search.total = resp.total_count;
-    		$scope.search.items = resp.items;
-    		$scope.search.loading = false;
-    		$scope.search.totalPage = resp.total_count / 20;
+    			vm.search.many = true;
+    			vm.search.manyMsg = 'Viewing ' + range + ' out of ' +resp.total_count;
+    		}else if(resp.total_count === 0){
+          vm.noResults = true;
+        }
+    		vm.search.done = true;
+    		vm.search.searchTerm = q;
+    		vm.search.page = resp.page_number;
+    		vm.search.total = resp.total_count;
+    		vm.search.items = resp.items;
+    		vm.search.loading = false;
+    		vm.search.totalPage = resp.total_count / 20;
     	});
     }
 
-    $scope.searchPage = function(q, page){
-    	$scope.search = {
+    vm.searchPage = function(q, page){
+    	search = {
 	  		'loading' : true,
 	  		'total' : '',
 	  		'searchTerm' : '',
@@ -67,15 +74,15 @@ angular.module('brightcoveRequesterApp')
 	  	}
     	searchService.searchNextPage(q, page).then(function(resp){
     		
-    		$scope.search.done = true;
-    		$scope.search.searchTerm = q;
-    		$scope.search.page = resp.page_number;
-    		$scope.search.total = resp.total_count;
-    		$scope.search.items = resp.items;
-    		$scope.search.loading = false;
-    		$scope.search.pagination = true;
-    		$scope.search.totalPage = createArray(resp.total_count / 20);
-    		$scope.search.page = resp.page_number
+    		vm.search.done = true;
+    		vm.search.searchTerm = q;
+    		vm.search.page = resp.page_number;
+    		vm.search.total = resp.total_count;
+    		vm.search.items = resp.items;
+    		vm.search.loading = false;
+    		vm.search.pagination = true;
+    		vm.search.totalPage = createArray(resp.total_count / 20);
+    		vm.search.page = resp.page_number
     	});
     }
 
