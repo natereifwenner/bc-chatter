@@ -39,6 +39,7 @@ exports.videoSearch = function(req, res) {
     }
 };
 
+//TODO: When the application sits open for awhile, requesting playlist uses previous and expired auth key
 //TODO: Make a sepearate call to return playlist length to help identify master playlist id
 exports.playlistSearch = function(req, res) {
   var getToken = request({
@@ -52,6 +53,7 @@ exports.playlistSearch = function(req, res) {
   }, function (error, response, body) {
     var str = JSON.parse(body);
     auth = str.access_token;
+    console.log(auth);
     return auth;
   });
   var x = request({

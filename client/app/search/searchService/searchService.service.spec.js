@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service: searchService', function () {
+/*describe('Service: searchService', function () {
 
   // load the service's module
   beforeEach(module('brightcoveRequesterApp'));
@@ -15,4 +15,4 @@ describe('Service: searchService', function () {
     expect(!!searchService).toBe(true);
   });
 
-});
+});*/

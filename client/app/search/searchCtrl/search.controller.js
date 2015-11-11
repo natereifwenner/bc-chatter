@@ -5,18 +5,19 @@ angular.module('brightcoveRequesterApp')
     var search, vm;
     vm = this;
     vm.search = {
-      'loading' : false,
       'total' : '',
       'searchTerm' : '',
-      'done' : false,
-      'many' : false,
-      'manyMsg' : '',
       'items' : [],
-      'pagination' : false,
       'totalPage' : 0,
       'page' : 0,
       'playlist' : { id: null }
     };
+    vm.state = {
+      'done' : false,
+      'many' : false,
+      'currentRange' : '',
+      'pagination' : false,
+    }
     vm.searchOptApi = {};
     vm.noResults = false;
   	vm.request = {
@@ -25,64 +26,58 @@ angular.module('brightcoveRequesterApp')
             { name: "Ref ID", placeholder: "Search by Reference ID - Example: 1355062_01_C"}*/]
   	};
   	
-
     vm.searchKey = function(api,q){
-    	vm.search = {
-	  		'loading' : true,
-	  		'total' : '',
-	  		'searchTerm' : '',
-	  		'done' : false,
-	  		'many' : false,
-	  		'manyMsg' : '',
-	  		'items' : [],
-	  		'pagination' : false,
-	  		'totalPage' : 0,
-	  		'page' : 0,
-        'playlist' : { id: null }
-	  	}
+      //reset state
+      vm.noResults = false;
+      vm.state = {
+        'done' : false,
+        'many' : false,
+        'currentRange' : '',
+        'pagination' : false,
+      }
+
     	searchService.searchAll(api,q).then(function(resp){
-        console.log(resp);
     		if(resp.page_size <= resp.total_count){
     			var range = resp.items.length;
-    			vm.search.many = true;
-    			vm.search.manyMsg = 'Viewing ' + range + ' out of ' +resp.total_count;
+    			vm.state.many = true;
+    			vm.state.currentRange = 'Viewing ' + range + ' out of ' +resp.total_count;
     		}else if(resp.total_count === 0){
           vm.noResults = true;
         }
-    		vm.search.done = true;
+
     		vm.search.searchTerm = q;
     		vm.search.page = resp.page_number;
     		vm.search.total = resp.total_count;
     		vm.search.items = resp.items;
-    		vm.search.loading = false;
-    		vm.search.totalPage = resp.total_count / 20;
+        vm.search.totalPage = resp.total_count / 20;
+
+        vm.state.done = true;
+
+        
     	});
     }
 
     vm.searchPage = function(q, page){
-    	search = {
-	  		'loading' : true,
-	  		'total' : '',
-	  		'searchTerm' : '',
-	  		'done' : false,
-	  		'many' : false,
-	  		'manyMsg' : '',
-	  		'items' : [],
-	  		'pagination' : false,
-	  		'totalPage' : 0,
-	  		'page' : 0
-	  	}
+    	//reset state
+      vm.noResults = false;
+      vm.state = {
+        'done' : false,
+        'many' : false,
+        'currentRange' : '',
+        'pagination' : false,
+      }
     	searchService.searchNextPage(q, page).then(function(resp){
     		
-    		vm.search.done = true;
     		vm.search.searchTerm = q;
     		vm.search.page = resp.page_number;
     		vm.search.total = resp.total_count;
     		vm.search.items = resp.items;
-    		vm.search.loading = false;
-    		vm.search.pagination = true;
     		vm.search.totalPage = createArray(resp.total_count / 20);
     		vm.search.page = resp.page_number
+
+        vm.state.done = true;
+        vm.state.pagination = true;
+
     	});
     }
 

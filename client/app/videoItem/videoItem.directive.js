@@ -11,10 +11,10 @@ angular.module('brightcoveRequesterApp')
        controller: function($scope, $element, searchService){
          $scope.getPlaylist = function(id){
             $scope.playlist = {};
-            console.log(id);
-              searchService.getPlaylist(id).then(function(resp){
-                  $scope.playlist.id = resp.playlists;
-              })
+            searchService.getPlaylist(id).then(function(resp){
+                console.log(resp);
+                $scope.playlist.id = resp.playlists;
+            })
           }
        }
     };

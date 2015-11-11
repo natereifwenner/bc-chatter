@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 
 describe('Directive: videoRow', function () {
 
@@ -18,4 +18,4 @@ describe('Directive: videoRow', function () {
     scope.$apply();
     expect(element.text()).toBe('this is the videoRow directive');
   }));
-});
+});*/

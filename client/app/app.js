@@ -7,9 +7,9 @@ angular.module('brightcoveRequesterApp', [
   'ui.router',
   'ui.bootstrap'
 ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
       .otherwise('/');
-
+    $httpProvider.interceptors.push('LoadingInterceptor');
     $locationProvider.html5Mode(true);
   });

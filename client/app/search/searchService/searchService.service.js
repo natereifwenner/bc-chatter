@@ -14,6 +14,7 @@ angular.module('brightcoveRequesterApp')
       else if(api === 'Video'){
   			return $http.get('/api/search/video?q=' + q)
   						.then(function(result){
+              console.log(JSON.stringify(result.data));
   							return result.data;
   						})
       }

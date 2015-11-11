@@ -1,3 +1,6 @@
+<div class="flv-container-results-title flv-results-col col-lg-12 bg-primary">
+	<h3 class="flv-video-title">{{video.name}}</h3>
+</div>
 <div class="flv-container-results-info flv-results-col col-lg-3">
 		<div class="flv-container-results-info-inner">
 			<img src="{{video.videoStillURL}}" alt="" class="flv-still">
@@ -10,17 +13,16 @@
 		</div>
 	</div>
 	<div class="flv-container-ids flv-results-col col-lg-3">
-		<span class="flv-id">Video ID : {{video.id}}</span>
-		<span class="flv-ref">Ref ID : {{video.referenceId}}</span>
-		<span class="flv-thumb"><a href="{{video.thumbnailURL}}" target="_blank">Preview Thumbnail</a></span>
-		<span class="flv-mp4"><a href="{{video.FLVURL}}" target="_blank">Preview Video</a></span>
+		<div class="flv-id"><span class="flv-label"><strong><u>Video ID:</u></strong></span> {{video.id}}</div>
+		<div class="flv-ref" ng-if="video.referenceId.length > 0"><span class="flv-label"><strong><u>Ref ID:</u></strong></span> {{video.referenceId}}</div>
+		<span class="flv-thumb"><a class="flv-preview btn btn-warning" href="{{video.thumbnailURL}}" target="_blank"><i class="fa fa-picture-o"></i> Preview Thumbnail</a></span>
+		<span class="flv-mp4"><a class="flv-preview btn btn-warning" href="{{video.FLVURL}}" target="_blank"><i class="fa fa-video-camera"></i> Preview Video</a></span>
 	</div>
 	<div class="flv-title flv-results-col col-lg-3">
-		{{video.name}}
-		<span class="flv-short-description">{{video.shortDescription}}</span>
+		<span class="flv-short-description"><span class="flv-label"><strong><u>Description:</u></strong></span>{{video.shortDescription}}</span>
 	</div>
 	<div class="flv-title flv-results-col col-lg-3">
-		<button class="get-playlist get-action" ng-click="getPlaylist(video.id)">Get playlist ID <i class="fa fa-th-list"></i></button>
+		<button class="get-playlist get-action btn btn-primary btn-block" ng-click="getPlaylist(video.id)">Get playlist ID <i class="fa fa-th-list"></i></button>
 		<div class="playlist-id" ng-class="{ 'active': playlist.id }">
 			<h5 class="playlist-id-title">Playlist ID(s)</h5>
 			<div class="playlist-table" ng-repeat="list in playlist.id">

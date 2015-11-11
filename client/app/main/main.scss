@@ -124,7 +124,7 @@ html{
 }
 
 .container-results{
-    padding: 25px 0;
+    padding: 0 0 25px;
     
     &:nth-child(even){
         background:$color-light-gray;
@@ -202,6 +202,16 @@ html{
         }
     }
     
+        .flv-container-results-title{
+            margin-bottom: 25px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+            .flv-video-title{
+                margin: 0;
+                line-height: 1;
+            }
         .flv-container-results-info{
             .flv-container-results-info-inner{
                 position: relative;
@@ -228,17 +238,14 @@ html{
             }
         }
 
+        .flv-preview{
+            margin: 5px 0;
+        }
+
             .get-action{
-                border: none;
-                background:$color-blue;
                 padding: 10px;
                 margin-top: 10px;
-                color: #fff;
-                width: 100%;
-                text-align: center;
-                &:hover{
-                    background:darken($color-blue, 20%);
-                }
+                
             }
             .playlist-id{
                 display: none;
@@ -249,6 +256,10 @@ html{
                     display: block;
                 }
             }
+
+        .flv-label{
+            display: block;
+        }
 
 .footer {
     text-align: center;
