@@ -5,11 +5,11 @@
 
 'use strict';
 
-var Thing = require('../api/search/search.model');
+var Search = require('../api/search/search.model');
 
 
-Thing.find({}).remove(function() {
-  Thing.create({
+Search.find({}).remove(function() {
+  Search.create({
     name : 'Development Tools',
     info : 'Integration with popular tools such as Bower, Grunt, Karma, Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, Stylus, Sass, CoffeeScript, and Less.'
   }, {
